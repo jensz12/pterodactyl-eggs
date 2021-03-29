@@ -1,0 +1,59 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-03-29T13:37:38+02:00",
+    "name": "Musik bot",
+    "author": "jens@jensz12.com",
+    "description": "Musik bot",
+    "features": null,
+    "images": [
+        "quay.io\/parkervcp\/pterodactyl-images:debian_openjdk-11"
+    ],
+    "file_denylist": [],
+    "startup": "java -Dnogui=true -jar JMusicBot-0.3.3.jar",
+    "config": {
+        "files": "{\r\n    \"config.txt\": {\r\n        \"parser\": \"ini\",\r\n        \"find\": {\r\n            \"token\": \"{{server.build.env.DISCORD_BOT_TOKEN}}\",\r\n            \"owner\": \"{{server.build.env.DISCORD_OWNER_ID}}\",\r\n            \"prefix\": \"{{server.build.env.DISCORD_COMMAND_PREFIX}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Finished Loading!\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{\r\n    \"custom\": true,\r\n    \"location\": \"latest.log\"\r\n}",
+        "stop": "^c"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# PhantomBot Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napt update\r\napt -y --no-install-recommends install curl ca-certificates unzip\r\n\r\ncd \/tmp\r\n\r\n# Fetching latest github release\r\nif [ -z \"${RELEASE_VERSION}\" ] || [ \"${RELEASE_VERSION}\" == \"master\" ]; then\r\n        echo -e \"Using latest Github Master version\"\r\n        DOWNLOAD_URL=https:\/\/github.com\/jagrosh\/MusicBot\/releases\/download\/0.3.3\/JMusicBot-0.3.3.jar\r\nelse\r\n    if [ -z \"${RELEASE_VERSION}\" ] || [ \"${RELEASE_VERSION}\" == \"latest\" ]; then\r\n        echo -e \"Using latest release version\"\r\n        RELEASE_VERSION=$(curl -s \"https:\/\/github.com\/jagrosh\/MusicBot\/releases\" | grep -o '[0-9].[0-9].[0-9]')\r\n    fi\r\n    DOWNLOAD_URL=https:\/\/github.com\/jagrosh\/MusicBot\/releases\/download\/v${RELEASE_VERSION}\/JMusicBot-${RELEASE_VERSION}.jar\r\nfi\r\n\r\n# Download files\r\ncd \/mnt\/server\r\ncurl -LJO ${DOWNLOAD_URL}\r\n\r\n# Creating default config\r\nif [ ! -f \/mnt\/server\/config.txt ]; then\r\n    echo -e \"Creating config\/botlogin.txt\"\r\n    cat << EOF > \/mnt\/server\/config.txt\r\nEOF\r\nfi",
+            "container": "debian:buster-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Token",
+            "description": "Bot token from DIscord Developers",
+            "env_variable": "DISCORD_BOT_TOKEN",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "max:64"
+        },
+        {
+            "name": "Discord Owner ID",
+            "description": "Owner ID",
+            "env_variable": "DISCORD_OWNER_ID",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:64"
+        },
+        {
+            "name": "Command Prefix",
+            "description": "",
+            "env_variable": "DISCORD_COMMAND_PREFIX",
+            "default_value": "\"!\"",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:3"
+        }
+    ]
+}
