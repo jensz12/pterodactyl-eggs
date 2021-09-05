@@ -30,7 +30,7 @@
     "variables": [
         {
             "name": "Token",
-            "description": "Bot token from DIscord Developers",
+            "description": "Bot token from Discord Developers",
             "env_variable": "DISCORD_BOT_TOKEN",
             "default_value": "",
             "user_viewable": true,
