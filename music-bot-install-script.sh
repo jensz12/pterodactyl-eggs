@@ -9,7 +9,7 @@ cd /tmp
 # Fetching latest github release
 if [ -z "${RELEASE_VERSION}" ] || [ "${RELEASE_VERSION}" == "master" ]; then
         echo -e "Using latest Github Master version"
-        DOWNLOAD_URL=https://github.com/jagrosh/MusicBot/releases/download/0.3.5/JMusicBot-0.3.5.jar
+        DOWNLOAD_URL=https://github.com/jagrosh/MusicBot/releases/download/0.3.6/JMusicBot-0.3.6.jar
 else
     if [ -z "${RELEASE_VERSION}" ] || [ "${RELEASE_VERSION}" == "latest" ]; then
         echo -e "Using latest release version"
